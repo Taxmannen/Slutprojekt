@@ -1,0 +1,4 @@
+bean\Bean.class
+facades\EventFacade.class
+entites\Event.class
+facades\AbstractFacade.class

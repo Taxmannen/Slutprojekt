@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+	<h:form id="UserForm" style="width:80%; margin-left:auto; margin-right:auto"> 
+		<h:commandButton value="All Events" style="width:33.33333%" action="index.xhtml"/>
+		<h:commandButton value="My Events" 	style="width:33.33333%" action="event.xhtml"/>
+		<h:commandButton value="Users" 		style="width:33.33333%" action="user.xhtml"/>
+		
+		<p:separator/>
+		
+		<p:dataTable id="ShowUserTable" value="#{bean.member}" var="user" editable="true" editMode="cell">
+			<p:messages autoUpdate="true"/>
+			<f:facet name="header">All Users</f:facet>
+			
+			<p:column headerText="Username">
+				<p:cellEditor>
+     				<f:facet name="output">
+     					<h:outputText value="#{user.username}" />
+     				</f:facet>
+     				<f:facet name="input">
+      					<h:inputText value="#{user.username}" style="width:100%" >
+      						<p:ajax event="change" listener="#{bean.saveMember(user)}" update="ShowUserTable" />
+      					</h:inputText>
+     				</f:facet>
+    			</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Password">
+				<p:cellEditor>
+     				<f:facet name="output">
+     					<h:outputText value="#{user.password}" />
+     				</f:facet>
+     				<f:facet name="input">
+      					<h:inputText value="#{user.password}" style="width:100%" >
+      						<p:ajax event="change" listener="#{bean.saveMember(user)}" update="ShowUserTable" />
+      					</h:inputText>
+     				</f:facet>
+    			</p:cellEditor>
+    		</p:column>
+    		
+    		<p:column headerText="Role">
+				<p:cellEditor>
+     				<f:facet name="output">
+     					<h:outputText value="#{user.role}" />
+     				</f:facet>
+     				<f:facet name="input">
+      					<h:inputText value="#{user.role}" style="width:100%" >
+      						<p:ajax event="change" listener="#{bean.saveMember(user)}" update="ShowUserTable" />
+      					</h:inputText>
+     				</f:facet>
+    			</p:cellEditor>
+    		</p:column>
+    		
+    			<p:column headerText ="Delete">
+				<center>
+					<h:commandButton id="delete" value="Delete" style="width:100px">
+		   				<p:ajax event="click" listener="#{bean.deleteMember(user)}" update="ShowUserTable" />
+					</h:commandButton>
+				</center>
+			</p:column>
+		</p:dataTable>
+		
+		<p:separator/>
+	
+		<p:dataTable id="AddUserTable" value="1">
+	   		<p:messages autoUpdate="true"/>
+	  		<f:facet name="header">Add User</f:facet>
+	  		
+			<p:column headerText="Username">
+				<h:inputText name="username" value="#{bean.username}" style="width:100%" /> 
+			</p:column>
+			
+			<p:column headerText="Password">
+				<h:inputText name="password" value="#{bean.password}" style="width:100%" /> 
+			</p:column>
+			
+			<p:column headerText="Role">
+				<h:inputText name="role" value="#{bean.role}" style="width:100%" /> 
+			</p:column>
+			
+			<p:column headerText="Add">
+				<center>
+					<h:commandButton id="add" value="Add" action="#{bean.addMember()}" style="width:150px" />
+				</center>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<h:body>
+	<h:form id="collectionForm"> 
+	<p:dataTable id="gameTable" value="#{bean.event}" var="event" editable="true" editMode="cell">
+			<p:messages autoUpdate="true"/>
+			<f:facet name="header">Event Planer</f:facet>
+			
+			<p:column headerText="Name">
+				<p:cellEditor>
+     				<f:facet name="output">
+     					<h:outputText value="#{event.title}" />
+     				</f:facet>
+     				<f:facet name="input">
+      					<h:inputText value="#{event.title}" style="width:100%" >
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="gameTable" />
+      					</h:inputText>
+     				</f:facet>
+    			</p:cellEditor>
+			</p:column>
+			 	
+			<p:column headerText="Location">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.location}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.location}" style="width:100%" >
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="gameTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Start Date">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.startDate}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.startDate}" style="width:100%">
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="gameTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="End Date">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.endDate}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.endDate}" style="width:100%">
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="gameTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Start Time">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.startTime}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.startTime}" style="width:100%">
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="gameTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="End Time">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.endTime}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.endTime}" style="width:100%">
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="gameTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column>
+				<center>
+					<h:commandButton id="delete" value="Delete" style="width:150px">
+		   				<p:ajax event="click" listener="#{bean.deleteEvent(event)}" update="gameTable" />
+					</h:commandButton>
+				</center>
+			</p:column>
+		</p:dataTable>
+	   	
+	   
+	</h:form>
+</h:body>
+</html>
