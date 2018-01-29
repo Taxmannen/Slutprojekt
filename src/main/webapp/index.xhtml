@@ -94,7 +94,7 @@
      				</f:facet>
 				</p:cellEditor>
 			</p:column>
-		
+			
 			<p:column headerText ="Delete">
 				<center>
 					<h:commandButton id="delete" value="Delete" style="width:100px">
@@ -102,10 +102,12 @@
 					</h:commandButton>
 				</center>
 			</p:column>
-			
+
 			<p:column headerText="Attends">
 				<center>
-					<input type="checkbox" id="attends" style="width:100%"  />
+					<h:selectBooleanCheckbox>
+						<p:ajax event="click" listener="#{bean.attendingEvent(event)}" update="EventTable" />
+					</h:selectBooleanCheckbox>
 				</center>
 			</p:column>
 		</p:dataTable>
@@ -141,5 +143,8 @@
 		</p:dataTable>	
 	 	
 	</h:form>
+	<script>
+		var bean = ${bean};
+	</script>
 </h:body>
 </html>

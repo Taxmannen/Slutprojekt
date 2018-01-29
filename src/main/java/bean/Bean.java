@@ -39,28 +39,19 @@ public class Bean implements Serializable {
 	private String username;
 	private String password;
 	private String role;
+	private String userEvents;
 	
 	private List<Event> createdEvents;
 	private List<Event> attendedEvents;
 	private int id;
 	
 	public void saveEvent(Event e) {
-		eventEJB.edit(e);
+		if(id == e.getCreator()) eventEJB.edit(e);
 	}
 	
 	public void deleteEvent(Event e) {
 		eventEJB.remove(e);
 		events = eventEJB.findAll();
-	}
-	
-	void creator() {
-		String user = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().toString();
-		for(Member m : members) {
-			if(m.getUsername().equals(user)) {
-				id = m.getId();
-
-			}
-		}
 	}
 	
 	public void addEvent() {
@@ -91,10 +82,25 @@ public class Bean implements Serializable {
 	}
 	
 	public void addMember() {
-		Member u = new Member(username, password, role);
+		Member u = new Member(username, password, role, userEvents);
 		memberEJB.create(u);
 		members = memberEJB.findAll();
 	}
+	
+	void creator() {
+		String user = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().toString();
+		for(Member m : members) {
+			if(m.getUsername().equals(user)) id = m.getId();
+		}
+	}
+	
+	public void attendingEvent(Event e) {
+		System.out.println("aaa" + id + members.size());
+		Member m = members.get(id - 1);
+		m.setEvents(m.getEvents() + "," + e.getId());
+		memberEJB.edit(m);
+	}
+	
 	
 	public List<Event> getCreatedEvents() { 
 		if(createdEvents == null) {
@@ -111,7 +117,6 @@ public class Bean implements Serializable {
 	
 	public List<Event> getAttendedEvents() { 
 		if(attendedEvents == null) {
-			System.out.println("Inne");
 			getEvent();
 			attendedEvents = new ArrayList<Event>();
 			String[] args = members.get(id-1).getEvents().split(",");
@@ -123,7 +128,7 @@ public class Bean implements Serializable {
 	}
 	
 	public void setEvent(List<Event> events) { this.events = events; }
-	public void setMember(List<Member>members) { this.members = members;   }
+	public void setMember(List<Member>members) { this.members = members;   }	
 	
 	public String getTitle() { return title; }
 	public void setTitle(String title) { this.title = title; }
@@ -137,10 +142,13 @@ public class Bean implements Serializable {
 	public void setStarttime(String starttime) { this.starttime = starttime; }
 	public String getEndtime() { return endtime; }
 	public void setEndtime(String endtime) { this.endtime = endtime; }
+	
 	public String getUsername() { return username; }
 	public void setUsername(String username) { this.username = username; }
 	public String getPassword() { return password; }
 	public void setPassword(String password) { this.password = password; }
 	public String getRole() { return role; }
 	public void setRole(String role) { this.role = role; }
+	public String getUserEvents() { return userEvents; }
+	public void setUserEvents(String userEvents) { this.userEvents = userEvents; }
 }
