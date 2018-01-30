@@ -10,8 +10,37 @@
 	<h:form id="EventForm" style="width:80%; margin-left:auto; margin-right:auto">
 		<h:commandButton value="All Events" style="width:33.33333%" action="index.xhtml"/>
 		<h:commandButton value="My Events" 	style="width:33.33333%" action="event.xhtml"/>
-		<h:commandButton value="Users" 		style="width:33.33333%" action="user.xhtml"/>
-		<h:commandButton value="Admin" 		style="width:33.33333%" action="admin.xhtml"/>
+		<h:commandButton value="Admin" style="width:33.33333%" action="admin.xhtml"/>
+		
+		<p:separator/>
+	   	
+	  	<p:dataTable id="AddEventTable" value="1">
+			<p:messages autoUpdate="true"/>
+			<f:facet name="header">Add Event</f:facet>
+			<p:column headerText="Title">
+				<h:inputText name="title" value="#{bean.title}" style="width:100%" /> 
+			</p:column>
+			<p:column headerText="Location">
+				<h:inputText name="location" value="#{bean.location}" style="width:100%" /> 
+			</p:column>
+			<p:column headerText="Start Date">
+				<h:inputText name="startdate" value="#{bean.startdate}" style="width:100%" /> 
+			</p:column>
+			<p:column headerText="End Date">
+				<h:inputText name="enddate" value="#{bean.enddate}" style="width:100%" /> 
+			</p:column>
+			<p:column headerText="Start Time">
+				<h:inputText name="starttime" value="#{bean.starttime}" style="width:100%" /> 
+			</p:column>
+			<p:column headerText="End Time">
+				<h:inputText name="endtime" value="#{bean.endtime}" style="width:100%" /> 
+			</p:column>
+			<p:column headerText = "Add">
+				<center>
+					<h:commandButton id="add" value="Add" action="#{bean.addEvent()}" style="width:100px" />
+				</center>
+			</p:column>
+		</p:dataTable>	
 		
 		<p:separator/>
 		
@@ -51,40 +80,7 @@
 				</center>
 			</p:column>
 		</p:dataTable>
-		
-		<p:separator/>
-	   	
-	  	<p:dataTable id="AddEventTable" value="1">
-			<p:messages autoUpdate="true"/>
-			<f:facet name="header">Add Event</f:facet>
-			<p:column headerText="Title">
-				<h:inputText name="title" value="#{bean.title}" style="width:100%" /> 
-			</p:column>
-			<p:column headerText="Location">
-				<h:inputText name="location" value="#{bean.location}" style="width:100%" /> 
-			</p:column>
-			<p:column headerText="Start Date">
-				<h:inputText name="startdate" value="#{bean.startdate}" style="width:100%" /> 
-			</p:column>
-			<p:column headerText="End Date">
-				<h:inputText name="enddate" value="#{bean.enddate}" style="width:100%" /> 
-			</p:column>
-			<p:column headerText="Start Time">
-				<h:inputText name="starttime" value="#{bean.starttime}" style="width:100%" /> 
-			</p:column>
-			<p:column headerText="End Time">
-				<h:inputText name="endtime" value="#{bean.endtime}" style="width:100%" /> 
-			</p:column>
-			<p:column headerText = "Add">
-				<center>
-					<h:commandButton id="add" value="Add" action="#{bean.addEvent()}" style="width:75%" />
-				</center>
-			</p:column>
-		</p:dataTable>	
 	 	
 	</h:form>
-	<script>
-		var bean = ${bean};
-	</script>
 </h:body>
 </html>
