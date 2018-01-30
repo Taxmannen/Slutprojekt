@@ -94,11 +94,12 @@ public class Bean implements Serializable {
 		}
 	}
 	
-	public void attendingEvent(Event e) {
-		System.out.println("aaa" + id + members.size());
+	public void attendEvent(Event e) {
+		System.out.println("Jepp");
+		/*System.out.println("aaa" + id + members.size());
 		Member m = members.get(id - 1);
 		m.setEvents(m.getEvents() + "," + e.getId());
-		memberEJB.edit(m);
+		memberEJB.edit(m);*/
 	}
 	
 	
