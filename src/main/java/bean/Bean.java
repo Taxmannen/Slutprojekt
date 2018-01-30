@@ -43,6 +43,13 @@ public class Bean implements Serializable {
 	private List<Event> createdEvents;
 	private List<Event> attendedEvents;
 	private int id;
+	private boolean admin;
+	
+	public void addEvent() {
+		Event e = new Event(title, location, startdate, enddate, starttime, endtime, id);
+		eventEJB.create(e);
+		events = eventEJB.findAll();
+	}
 	
 	public void saveEvent(Event e) {
 		if(id == e.getCreator()) eventEJB.edit(e);
@@ -53,21 +60,22 @@ public class Bean implements Serializable {
 		events = eventEJB.findAll();
 	}
 	
-	public void addEvent() {
-		Event e = new Event(title, location, startdate, enddate, starttime, endtime, id);
-		eventEJB.create(e);
-		events = eventEJB.findAll();
-	}
-	
 	public List<Event> getEvent() {
 		if(events == null) events = eventEJB.findAll();
 		getMember();
 		creator();
 		return events;
 	}
+
+	public void addMember() {
+		Member u = new Member(username, password, role, "");
+		memberEJB.create(u);
+		members = memberEJB.findAll();
+	}
 	
 	public void saveMember(Member m) {
 		memberEJB.edit(m);
+		System.out.println(m.getUsername() + m.getRole() + m.getPassword());
 	}
 	
 	public void deleteMember(Member m) {
@@ -78,12 +86,6 @@ public class Bean implements Serializable {
 	public List<Member> getMember() {
 		if(members == null) members = memberEJB.findAll();
 		return members;
-	}
-	
-	public void addMember() {
-		Member u = new Member(username, password, role);
-		memberEJB.create(u);
-		members = memberEJB.findAll();
 	}
 	
 	void creator() {
@@ -107,9 +109,7 @@ public class Bean implements Serializable {
 			getEvent();
 			createdEvents = new ArrayList<Event>();
 			for(Event e: events) {
-				if(e.getCreator() == id) {
-					createdEvents.add(e);
-				}
+				if(e.getCreator() == id) createdEvents.add(e);
 			}
 		}
 		return createdEvents; 
@@ -149,6 +149,16 @@ public class Bean implements Serializable {
 	public void setPassword(String password) { this.password = password; }
 	public String getRole() { return role; }
 	public void setRole(String role) { this.role = role; }
-	
-	}
 
+	public boolean isAdmin() {
+		if(members == null) members = memberEJB.findAll();
+		String user = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().toString();
+		for(Member m : members) {
+			if(m.getUsername().equals(user)) {
+				if(m.getRole().equals("admin")) admin = true;
+				else admin = false; 
+			}
+		}
+		return admin;
+	}
+}

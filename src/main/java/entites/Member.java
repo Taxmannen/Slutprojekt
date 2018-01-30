@@ -21,15 +21,16 @@ public class Member {
 	@Column(name="role", nullable = false, length = 32) 	
 	private String role;
 	
-	@Column(name="events")	
+	@Column(name="events") 	
 	private String events;
 	
 	public Member(){ }
 	
-	public Member(String username, String password, String role) { 
+	public Member(String username, String password, String role, String events) { 
 		this.username = username;
 		this.password = password;
 		this.role = role;
+		this.events = events;
 	}
 	
 	public int getId() { return id; }

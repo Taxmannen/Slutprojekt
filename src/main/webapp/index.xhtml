@@ -8,11 +8,19 @@
 <h:head></h:head>
 <h:body>
 	<h:form id="EventForm" style="width:80%; margin-left:auto; margin-right:auto">
-		<h:commandButton value="All Events" style="width:33.33333%" action="index.xhtml"/>
-		<h:commandButton value="My Events" 	style="width:33.33333%" action="event.xhtml"/>
-		<h:commandButton value="Admin" style="width:33.33333%" action="admin.xhtml"/>
+		<p:dataTable id="Buttons" value="1">
+			<p:column>
+				<h:commandButton value="All Events" style="width:100%" action="index.xhtml"/>
+			</p:column>
+			<p:column>
+				<h:commandButton value="My Events" style="width:100%" 	action="event.xhtml"/>	
+			</p:column>
+			<p:column rendered="#{bean.admin}">
+	    		<h:commandButton value="Admin" style="width:100%" action="admin.xhtml"/>
+	    	</p:column>
+		</p:dataTable>
 		
-		<p:separator/>
+	   	<p:separator/>
 	   	
 	  	<p:dataTable id="AddEventTable" value="1">
 			<p:messages autoUpdate="true"/>

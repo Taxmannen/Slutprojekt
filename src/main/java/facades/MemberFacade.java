@@ -17,17 +17,10 @@ public class MemberFacade extends AbstractFacade<Member> {
 	public MemberFacade() {
 		super(Member.class);
 	}
-	
-	@Override
-    @RolesAllowed({"admin"})
-	public void create(Member entity) {
-		super.remove(entity);
-	}
 
 	@Override
-    @RolesAllowed({"admin"})
-	public void edit(Member entity) {
-		super.remove(entity);
+	protected EntityManager getEntityManager() {
+		return em;
 	}
 	
 	@Override
@@ -35,9 +28,5 @@ public class MemberFacade extends AbstractFacade<Member> {
 	public void remove(Member entity) {
 		super.remove(entity);
 	}
-	
-	@Override
-	protected EntityManager getEntityManager() {
-		return em;
-	}
 }
+
