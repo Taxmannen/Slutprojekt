@@ -96,13 +96,33 @@ public class Bean implements Serializable {
 	}
 	
 	public void attendEvent(Event e) {
-		System.out.println("Jepp");
-		/*System.out.println("aaa" + id + members.size());
-		Member m = members.get(id - 1);
-		m.setEvents(m.getEvents() + "," + e.getId());
-		memberEJB.edit(m);*/
+		Member m = members.get(id-1);
+		String str = m.getEvents();
+		if(str == null) {
+			str = ""; 
+		}
+		else {
+			str += ",";
+		}
+		String args[] = str.split(",");
+		for(String arg : args) {
+			if(arg.equals(String.valueOf(e.getId()))) return;
+		}
+		m.setEvents(str + e.getId());
+		memberEJB.edit(m);
 	}
 	
+	public List<Event> getAttendedEvents() {
+		Member m = members.get(id-1);
+		if(m.getEvents() != null && attendedEvents == null) {
+			attendedEvents = new ArrayList<Event>();
+			String str[] = m.getEvents().split(",");
+			for(String arg : str) {
+				attendedEvents.add(events.get(Integer.parseInt(arg)-1));
+			}
+		}
+		return attendedEvents;
+	}
 	
 	public List<Event> getCreatedEvents() { 
 		if(createdEvents == null) {
@@ -113,18 +133,6 @@ public class Bean implements Serializable {
 			}
 		}
 		return createdEvents; 
-	}
-	
-	public List<Event> getAttendedEvents() { 
-		if(attendedEvents == null) {
-			getEvent();
-			attendedEvents = new ArrayList<Event>();
-			String[] args = members.get(id-1).getEvents().split(",");
-			for(String arg : args) {
-				attendedEvents.add(events.get(Integer.parseInt(arg)-1));
-			}
-		}
-		return attendedEvents;
 	}
 	
 	public void setEvent(List<Event> events) { this.events = events; }

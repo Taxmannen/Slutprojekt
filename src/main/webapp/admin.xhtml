@@ -96,6 +96,99 @@
 				</center>
 			</p:column>
 		</p:dataTable>
+		
+		<p:separator/>
+		
+		<p:dataTable id="EventTable" value="#{bean.event}" var="event" editable="true" editMode="cell">
+			<p:messages autoUpdate="true"/>
+			<f:facet name="header">Events</f:facet>
+			<p:column headerText="Title">
+				<p:cellEditor>
+     				<f:facet name="output">
+     					<h:outputText value="#{event.title}" />
+     				</f:facet>
+     				<f:facet name="input">
+      					<h:inputText value="#{event.title}" style="width:100%" >
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="EventTable" />
+      					</h:inputText>
+     				</f:facet>
+    			</p:cellEditor>
+			</p:column>
+			 	
+			<p:column headerText="Location">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.location}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.location}" style="width:100%" >
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="EventTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Start Date">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.startDate}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.startDate}" style="width:100%">
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="EventTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="End Date">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.endDate}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.endDate}" style="width:100%">
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="EventTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="Start Time">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.startTime}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.startTime}" style="width:100%">
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="EventTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText="End Time">
+				<p:cellEditor>
+					<f:facet name="output">
+							<h:outputText value="#{event.endTime}" />
+					</f:facet>
+					<f:facet name="input">
+      					<h:inputText value="#{event.endTime}" style="width:100%">
+      						<p:ajax event="change" listener="#{bean.saveEvent(event)}" update="EventTable" />
+      					</h:inputText>
+     				</f:facet>
+				</p:cellEditor>
+			</p:column>
+			
+			<p:column headerText ="Delete">
+				<center>
+					<h:commandButton id="delete" value="Delete" style="width:100px">
+		   				<p:ajax event="click" listener="#{bean.deleteEvent(event)}" update="EventTable"  />
+					</h:commandButton>
+				</center>
+			</p:column>
+		</p:dataTable>
+		
 	</h:form>
 </h:body>
 </html>
