@@ -39,7 +39,6 @@ public class Bean implements Serializable {
 	private String username;
 	private String password;
 	private String role;
-	private String userEvents;
 	
 	private List<Event> createdEvents;
 	private List<Event> attendedEvents;
@@ -82,7 +81,7 @@ public class Bean implements Serializable {
 	}
 	
 	public void addMember() {
-		Member u = new Member(username, password, role, userEvents);
+		Member u = new Member(username, password, role);
 		memberEJB.create(u);
 		members = memberEJB.findAll();
 	}
@@ -150,6 +149,6 @@ public class Bean implements Serializable {
 	public void setPassword(String password) { this.password = password; }
 	public String getRole() { return role; }
 	public void setRole(String role) { this.role = role; }
-	public String getUserEvents() { return userEvents; }
-	public void setUserEvents(String userEvents) { this.userEvents = userEvents; }
-}
+	
+	}
+

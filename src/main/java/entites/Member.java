@@ -26,11 +26,10 @@ public class Member {
 	
 	public Member(){ }
 	
-	public Member(String username, String password, String role, String events) { 
+	public Member(String username, String password, String role) { 
 		this.username = username;
 		this.password = password;
 		this.role = role;
-		this.events = events;
 	}
 	
 	public int getId() { return id; }
