@@ -2,6 +2,8 @@ package bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -28,22 +30,12 @@ public class Bean implements Serializable {
 	
 	@OneToMany(mappedBy="event")
 	private List<Member> members;
-	
-	private String title;
-	private String location;
-	private String startdate;
-	private String enddate;
-	private String starttime;
-	private String endtime;
-	
-	private String username;
-	private String password;
-	private String role;
-	
 	private List<Event> createdEvents;
 	private List<Event> attendedEvents;
-	private int id;
 	private boolean admin;
+	private int id;
+	private String title, location, startdate, enddate, starttime, endtime;
+	private String username, password, role;
 	
 	public void addEvent() {
 		Event e = new Event(title, location, startdate, enddate, starttime, endtime, id);
@@ -63,12 +55,12 @@ public class Bean implements Serializable {
 	public List<Event> getEvent() {
 		if(events == null) events = eventEJB.findAll();
 		getMember();
-		creator();
+		addCreator();
 		return events;
 	}
 
 	public void addMember() {
-		Member u = new Member(username, password, role, "");
+		Member u = new Member(username, password, role, null);
 		memberEJB.create(u);
 		members = memberEJB.findAll();
 	}
@@ -88,7 +80,7 @@ public class Bean implements Serializable {
 		return members;
 	}
 	
-	void creator() {
+	void addCreator() {
 		String user = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().toString();
 		for(Member m : members) {
 			if(m.getUsername().equals(user)) id = m.getId();
@@ -96,6 +88,11 @@ public class Bean implements Serializable {
 	}
 	
 	public void attendEvent(Event e) {
+		Collections.sort(members, new Comparator<Member>(){
+            public int compare(Member a, Member b) {
+           	 return String.valueOf(a.getId()).compareToIgnoreCase(String.valueOf(b.getId()));
+           }
+       });
 		Member m = members.get(id-1);
 		String str = m.getEvents();
 		if(str == null) {
@@ -109,11 +106,20 @@ public class Bean implements Serializable {
 			if(arg.equals(String.valueOf(e.getId()))) return;
 		}
 		m.setEvents(str + e.getId());
+		System.out.println("Test " +  id + " " + e.getId() + " " + str);
 		memberEJB.edit(m);
 	}
 	
 	public List<Event> getAttendedEvents() {
+		Collections.sort(members, new Comparator<Member>(){
+            public int compare(Member a, Member b) {
+           	 return String.valueOf(a.getId()).compareToIgnoreCase(String.valueOf(b.getId()));
+           }
+       });
 		Member m = members.get(id-1);
+		for(int i = 0; i < members.size(); i ++) {
+			System.out.println(i + " " + members.get(i).getUsername());
+		}
 		if(m.getEvents() != null && attendedEvents == null) {
 			attendedEvents = new ArrayList<Event>();
 			String str[] = m.getEvents().split(",");
@@ -135,9 +141,20 @@ public class Bean implements Serializable {
 		return createdEvents; 
 	}
 	
+	public boolean isAdmin() {
+		if(members == null) members = memberEJB.findAll();
+		String user = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().toString();
+		for(Member m : members) {
+			if(m.getUsername().equals(user)) {
+				if(m.getRole().equals("admin")) admin = true;
+				else admin = false; 
+			}
+		}
+		return admin;
+	}
+	
 	public void setEvent(List<Event> events) { this.events = events; }
 	public void setMember(List<Member>members) { this.members = members;   }	
-	
 	public String getTitle() { return title; }
 	public void setTitle(String title) { this.title = title; }
 	public String getLocation() { return location; }
@@ -150,23 +167,10 @@ public class Bean implements Serializable {
 	public void setStarttime(String starttime) { this.starttime = starttime; }
 	public String getEndtime() { return endtime; }
 	public void setEndtime(String endtime) { this.endtime = endtime; }
-	
 	public String getUsername() { return username; }
 	public void setUsername(String username) { this.username = username; }
 	public String getPassword() { return password; }
 	public void setPassword(String password) { this.password = password; }
 	public String getRole() { return role; }
 	public void setRole(String role) { this.role = role; }
-
-	public boolean isAdmin() {
-		if(members == null) members = memberEJB.findAll();
-		String user = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().toString();
-		for(Member m : members) {
-			if(m.getUsername().equals(user)) {
-				if(m.getRole().equals("admin")) admin = true;
-				else admin = false; 
-			}
-		}
-		return admin;
-	}
 }

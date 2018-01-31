@@ -49,6 +49,13 @@
 		
 		<p:dataTable id="ShowUserTable" value="#{bean.member}" var="user" editable="true" editMode="cell">
 			<p:messages autoUpdate="true"/>
+			
+			<!--  
+			<p:column>
+     			<h:outputText value="#{user.id}" />
+			</p:column>
+			-->
+			
 			<p:column>
 				<p:cellEditor>
      				<f:facet name="output">
@@ -102,6 +109,13 @@
 		<p:dataTable id="EventTable" value="#{bean.event}" var="event" editable="true" editMode="cell">
 			<p:messages autoUpdate="true"/>
 			<f:facet name="header">Events</f:facet>
+			
+			<!--
+			<p:column>
+     			<h:outputText value="#{event.id}" />
+			</p:column>
+			-->
+			
 			<p:column headerText="Title">
 				<p:cellEditor>
      				<f:facet name="output">
